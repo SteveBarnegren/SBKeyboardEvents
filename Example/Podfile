@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SBKeyboardEvents_Example' do
+  pod 'SBKeyboardEvents', :path => '../'
+
+  target 'SBKeyboardEvents_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
