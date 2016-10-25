@@ -5,10 +5,10 @@ public protocol SBKeyboardEventsListener : class{
     func keyboardDidAppear()
     func keyboardWillHide()
     func keyboardDidHide()
-    func keyboardWillChangeFrame(frame: CGRect)
-    func keyboardDidChangeFrame(frame: CGRect)
-    func animateForKeyboardFrame(frame: CGRect)
-    func animateForKeyboardHeight(height: CGFloat)
+    func keyboardWillChangeFrame(_ frame: CGRect)
+    func keyboardDidChangeFrame(_ frame: CGRect)
+    func animateForKeyboardFrame(_ frame: CGRect)
+    func animateForKeyboardHeight(_ height: CGFloat)
 }
 
 public extension SBKeyboardEventsListener{
@@ -17,46 +17,46 @@ public extension SBKeyboardEventsListener{
     func keyboardDidAppear() {}
     func keyboardWillHide() {}
     func keyboardDidHide() {}
-    func keyboardWillChangeFrame(frame: CGRect) {}
-    func keyboardDidChangeFrame(frame: CGRect) {}
-    func animateForKeyboardFrame(frame: CGRect) {}
-    func animateForKeyboardHeight(height: CGFloat) {}
+    func keyboardWillChangeFrame(_ frame: CGRect) {}
+    func keyboardDidChangeFrame(_ frame: CGRect) {}
+    func animateForKeyboardFrame(_ frame: CGRect) {}
+    func animateForKeyboardHeight(_ height: CGFloat) {}
 }
 
-extension NSNotification{
+extension Notification{
     
     func endFrame() -> CGRect {
         let dictionary = userInfo! as Dictionary;
-        let endFrame = (dictionary[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let endFrame = (dictionary[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         return endFrame
     }
     
     func duration() -> Double {
         let dictionary = userInfo! as Dictionary;
-        let duration = dictionary[UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-        return duration
+        let duration = (dictionary[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+        return duration!
     }
     
     func animationCurve() -> UInt {
         let dictionary = userInfo! as Dictionary;
-        let animationCurve = dictionary[UIKeyboardAnimationCurveUserInfoKey]!.unsignedIntegerValue
-        return animationCurve
+        let animationCurve = (dictionary[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
+        return animationCurve!
     }
 
 }
 
-public class SBKeyboardEvents: NSObject {
+open class SBKeyboardEvents: NSObject {
     
     // MARK -  ***** Public API *****
-    public class func addListener(listener: SBKeyboardEventsListener){
+    open class func addListener(_ listener: SBKeyboardEventsListener){
         self.sharedInstance.addListener(listener)
     }
     
-    public class func removeListener(listener: SBKeyboardEventsListener){
+    open class func removeListener(_ listener: SBKeyboardEventsListener){
         self.sharedInstance.removeListener(listener)
     }
     
-    public class func removeAllListeners(){
+    open class func removeAllListeners(){
         self.sharedInstance.removeAllListeners()
     }
     
@@ -84,36 +84,36 @@ public class SBKeyboardEvents: NSObject {
         
         super.init()
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notificationCenter = NotificationCenter.default
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillShow),
-                                       name: UIKeyboardWillShowNotification,
+                                       name: NSNotification.Name.UIKeyboardWillShow,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidShow),
-                                       name: UIKeyboardDidShowNotification,
+                                       name: NSNotification.Name.UIKeyboardDidShow,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillHide),
-                                       name: UIKeyboardWillHideNotification,
+                                       name: NSNotification.Name.UIKeyboardWillHide,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidHide),
-                                       name: UIKeyboardDidHideNotification,
+                                       name: NSNotification.Name.UIKeyboardDidHide,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillChangeFrame),
-                                       name: UIKeyboardWillChangeFrameNotification,
+                                       name: NSNotification.Name.UIKeyboardWillChangeFrame,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidChangeFrame),
-                                       name: UIKeyboardDidChangeFrameNotification,
+                                       name: NSNotification.Name.UIKeyboardDidChangeFrame,
                                        object: nil)
 
         
@@ -121,13 +121,13 @@ public class SBKeyboardEvents: NSObject {
     
     // MARK - Manage Listeners
     
-    func addListener(listener: SBKeyboardEventsListener){
+    func addListener(_ listener: SBKeyboardEventsListener){
         
         let wrapper = SBKeyboardListenerWeakWrapper(listener: listener)
         self.wrappedListeners.append(wrapper)
     }
     
-    func removeListener(listener: SBKeyboardEventsListener){
+    func removeListener(_ listener: SBKeyboardEventsListener){
         
         self.wrappedListeners.filter{ $0.listener !== listener }
     }
@@ -142,35 +142,35 @@ public class SBKeyboardEvents: NSObject {
     
     // MARK - Keyboard Notifications
     
-    func keyboardWillShow(notification: NSNotification){
+    func keyboardWillShow(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardWillAppear()
         }
     }
     
-    func keyboardDidShow(notification: NSNotification){
+    func keyboardDidShow(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidAppear()
         }
     }
     
-    func keyboardWillHide(notification: NSNotification){
+    func keyboardWillHide(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardWillHide()
         }
     }
     
-    func keyboardDidHide(notification: NSNotification){
+    func keyboardDidHide(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidHide()
         }
     }
     
-    func keyboardWillChangeFrame(notification: NSNotification){
+    func keyboardWillChangeFrame(_ notification: Notification){
         
         let endFrame = notification.endFrame()
         let animationCurve = notification.animationCurve()
@@ -184,9 +184,9 @@ public class SBKeyboardEvents: NSObject {
             
             let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
             
-            let height: CGFloat = UIScreen.mainScreen().bounds.size.height - endFrame.origin.y
+            let height: CGFloat = UIScreen.main.bounds.size.height - endFrame.origin.y
             
-            UIView.animateWithDuration(duration, delay: 0, options: options, animations: { 
+            UIView.animate(withDuration: duration, delay: 0, options: options, animations: { 
                 
                 for listener in self.listeners{
                     listener.animateForKeyboardFrame(endFrame)
@@ -198,7 +198,7 @@ public class SBKeyboardEvents: NSObject {
     
     }
     
-    func keyboardDidChangeFrame(notification: NSNotification){
+    func keyboardDidChangeFrame(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidChangeFrame(notification.endFrame())

@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     func tapAway() {
         
-        if textField.isFirstResponder() {
+        if textField.isFirstResponder {
             textField.resignFirstResponder()
         }
     }
@@ -51,7 +51,7 @@ extension ViewController: SBKeyboardEventsListener{
         print("ViewController: Keyboard did hide")
     }
     
-    func keyboardWillChangeFrame(frame: CGRect) {
+    func keyboardWillChangeFrame(_ frame: CGRect) {
         print("ViewController: Keyboard will change frame")
         print("Frame: \(frame)")
         
@@ -62,7 +62,7 @@ extension ViewController: SBKeyboardEventsListener{
         
     }
     
-    func animateForKeyboardHeight(height: CGFloat) {
+    func animateForKeyboardHeight(_ height: CGFloat) {
         
         let margin: CGFloat = 8.0
         textFieldBottomConstraint.constant = height + margin
