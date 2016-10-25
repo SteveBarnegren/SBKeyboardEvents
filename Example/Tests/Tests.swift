@@ -1,6 +1,13 @@
 import UIKit
 import XCTest
-import SBKeyboardEvents
+@testable import SBKeyboardEvents
+
+class TestListener: KeyboardEventListener {
+    
+    init() {
+        SBKeyboardEvents.addListener(self)
+    }
+}
 
 class Tests: XCTestCase {
     
@@ -14,16 +21,19 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testDeallocatedListenersAreAddedAndRemoved() {
+    
+        XCTAssert(SBKeyboardEvents.sharedInstance.listeners.count == 0, "There should be no listeners yet")
+        
+        var testListener: TestListener? = TestListener()
+    
+        XCTAssert(SBKeyboardEvents.sharedInstance.listeners.count == 1, "Expected 1 listener")
+
+        testListener = nil
+        
+        XCTAssert(SBKeyboardEvents.sharedInstance.listeners.count == 0, "Expected 0 listeners")
+
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
-        }
-    }
     
 }

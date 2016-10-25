@@ -17,10 +17,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SBKeyboardEvents.addListener(self)
+        // Style text field
+        textField.layer.borderColor = UIColor.darkGray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 20))
+        textField.leftView = paddingView;
+        textField.leftViewMode = .always;
         
+        // Add a tap gesture recognizer to dismiss the keyboard when tap away
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapAway))
         view.addGestureRecognizer(tapRecognizer)
+        
+        // Register for keyboard events
+        SBKeyboardEvents.addListener(self)
     }
     
     func tapAway() {
