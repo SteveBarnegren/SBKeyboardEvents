@@ -21,7 +21,6 @@ class ViewController: UIViewController {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapAway))
         view.addGestureRecognizer(tapRecognizer)
-        
     }
     
     func tapAway() {
@@ -33,38 +32,11 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: SBKeyboardEventsListener{
-    
-    func keyboardWillAppear() {
-        print("ViewController: Keyboard Will Appear")
-    }
-    
-    func keyboardDidAppear(){
-        print("ViewController: Keyboard Did Appear")
-    }
-    
-    func keyboardWillHide(){
-        print("ViewController: Keyboard will hide")
-    }
-    
-    func keyboardDidHide() {
-        print("ViewController: Keyboard did hide")
-    }
-    
-    func keyboardWillChangeFrame(_ frame: CGRect) {
-        print("ViewController: Keyboard will change frame")
-        print("Frame: \(frame)")
-        
-//        let margin: CGFloat = 8.0
-//        textFieldBottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - frame.origin.y + margin;
-//        view.setNeedsLayout()
-//        view.layoutIfNeeded()
-        
-    }
-    
+extension ViewController: KeyboardEventListener{
+
     func animateForKeyboardHeight(_ height: CGFloat) {
         
-        let margin: CGFloat = 8.0
+        let margin = CGFloat(8.0)
         textFieldBottomConstraint.constant = height + margin
         view.setNeedsLayout()
         view.layoutIfNeeded()
