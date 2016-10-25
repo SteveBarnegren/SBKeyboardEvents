@@ -1,0 +1,6 @@
+framework module SBKeyboardEvents {
+  umbrella header "SBKeyboardEvents-umbrella.h"
+
+  export *
+  module * { export * }
+}

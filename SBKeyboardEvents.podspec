@@ -24,19 +24,13 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/<GITHUB_USERNAME>/SBKeyboardEvents'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Steve Barnegren' => 'steve.barnegren@himumsaiddad.com' }
+  s.author           = { 'Steve Barnegren' => 'steve.barnegren@gmail.com' }
   s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/SBKeyboardEvents.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'SBKeyboardEvents/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'SBKeyboardEvents' => ['SBKeyboardEvents/Assets/*.png']
-  # }
+  s.source_files = 'SBKeyboardEvents/**/*'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'UIKit'
 end

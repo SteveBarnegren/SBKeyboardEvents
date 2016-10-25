@@ -1,0 +1,6 @@
+framework module Pods_SBKeyboardEvents_Example {
+  umbrella header "Pods-SBKeyboardEvents_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
