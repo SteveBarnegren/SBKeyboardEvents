@@ -25,7 +25,7 @@ Write less boilerplate code and easily respond to keyboard events
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Steve Barnegren' => 'steve.barnegren@gmail.com' }
   s.source           = { :git => 'https://github.com/SteveBarnegren/SBKeyboardEvents.git', :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/<SteveBarnegren>'
+  s.social_media_url = 'https://twitter.com/SteveBarnegren'
 
   s.ios.deployment_target = '9.0'
 
