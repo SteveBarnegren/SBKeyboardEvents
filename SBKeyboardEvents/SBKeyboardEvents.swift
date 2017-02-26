@@ -115,8 +115,12 @@ open class SBKeyboardEvents: NSObject {
     }
     
     func removeListener(_ listener: KeyboardEventListener){
-        
-        self.wrappedListeners.filter{ $0.listener !== listener }
+
+        self.wrappedListeners = self.wrappedListeners.filter{
+            
+            guard let aListener = $0.listener else { return false }
+            return aListener !== listener
+        }
     }
     
     func removeAllListeners(){
@@ -224,7 +228,7 @@ open class SBKeyboardEvents: NSObject {
 
 // MARK: - Supporting classes / extensions
 
-class SBKeyboardListenerWeakWrapper {
+struct SBKeyboardListenerWeakWrapper {
     weak var listener: KeyboardEventListener?
     
     init(listener: KeyboardEventListener){
