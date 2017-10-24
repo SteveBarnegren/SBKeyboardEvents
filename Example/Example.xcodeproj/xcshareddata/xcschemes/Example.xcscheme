@@ -17,21 +17,7 @@
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
                BuildableName = "SBKeyboardEvents_Example.app"
                BlueprintName = "SBKeyboardEvents_Example"
-               ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SBKeyboardEvents_Tests.xctest"
-               BlueprintName = "SBKeyboardEvents_Tests"
-               ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
+               ReferencedContainer = "container:Example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,7 +36,7 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "SBKeyboardEvents_Tests.xctest"
                BlueprintName = "SBKeyboardEvents_Tests"
-               ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
+               ReferencedContainer = "container:Example.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,7 +46,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "SBKeyboardEvents_Example.app"
             BlueprintName = "SBKeyboardEvents_Example"
-            ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -84,7 +70,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "SBKeyboardEvents_Example.app"
             BlueprintName = "SBKeyboardEvents_Example"
-            ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -103,7 +89,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "SBKeyboardEvents_Example.app"
             BlueprintName = "SBKeyboardEvents_Example"
-            ReferencedContainer = "container:SBKeyboardEvents.xcodeproj">
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

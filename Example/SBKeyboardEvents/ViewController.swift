@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         SBKeyboardEvents.addListener(self)
     }
     
-    func tapAway() {
+    @objc func tapAway() {
         
         if textField.isFirstResponder {
             textField.resignFirstResponder()
