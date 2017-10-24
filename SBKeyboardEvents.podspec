@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SBKeyboardEvents'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'Easily respond to keyboard events'
 
 # This description is used to generate tags and improve search results.
@@ -29,7 +29,7 @@ Write less boilerplate code and easily respond to keyboard events
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'SBKeyboardEvents/**/*'
+  s.source_files = 'SBKeyboardEvents/SBKeyboardEvents/**/*'
 
   s.frameworks = 'UIKit'
 end
