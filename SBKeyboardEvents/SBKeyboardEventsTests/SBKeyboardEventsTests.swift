@@ -9,28 +9,65 @@
 import XCTest
 @testable import SBKeyboardEvents
 
+class TestListener: KeyboardEventListener {
+}
+
 class SBKeyboardEventsTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testAddingListenerAddsListener() {
+        
+        SBKeyboardEvents.removeAllListeners()
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
+        
+        let listener = TestListener()
+        SBKeyboardEvents.addListener(listener)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 1)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testDeallocatedListenersAreAddedAndRemoved() {
+        
+        SBKeyboardEvents.removeAllListeners()
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
+        
+        var testListener: TestListener? = TestListener()
+        SBKeyboardEvents.addListener(testListener!)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 1)
+        
+        testListener = nil
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testRemoveListenerRemovesListener() {
+        
+        SBKeyboardEvents.removeAllListeners()
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
+        
+        let testListener = TestListener()
+        SBKeyboardEvents.addListener(testListener)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 1)
+        
+        SBKeyboardEvents.removeListener(testListener)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testRemoveListenerREmovesCorrectListener() {
+        
+        SBKeyboardEvents.removeAllListeners()
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 0)
+        
+        let firstListener = TestListener()
+        SBKeyboardEvents.addListener(firstListener)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 1)
+        
+        let secondListener = TestListener()
+        SBKeyboardEvents.addListener(secondListener)
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 2)
+        
+        // Remove the first listener
+        SBKeyboardEvents.removeListener(firstListener)
+        
+        // There should still be one listener
+        XCTAssertEqual(SBKeyboardEvents.sharedInstance.listeners.count, 1)
     }
     
 }

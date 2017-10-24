@@ -33,10 +33,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SBKeyboardEvents_Tests.xctest"
-               BlueprintName = "SBKeyboardEvents_Tests"
-               ReferencedContainer = "container:Example.xcodeproj">
+               BlueprintIdentifier = "670C9D281F9FB647009E6EBC"
+               BuildableName = "SBKeyboardEventsTests.xctest"
+               BlueprintName = "SBKeyboardEventsTests"
+               ReferencedContainer = "container:../SBKeyboardEvents/SBKeyboardEvents.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
