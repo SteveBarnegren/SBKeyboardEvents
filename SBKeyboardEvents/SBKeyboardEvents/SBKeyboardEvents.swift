@@ -133,7 +133,7 @@ open class SBKeyboardEvents: NSObject {
     
     // MARK - Keyboard Notifications
     
-    func keyboardWillShow(_ notification: Notification){
+    @objc func keyboardWillShow(_ notification: Notification){
         
         isKeyboardVisibleFlag = true
         
@@ -148,14 +148,14 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame)
     }
     
-    func keyboardDidShow(_ notification: Notification){
+    @objc func keyboardDidShow(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidAppear()
         }
     }
     
-    func keyboardWillHide(_ notification: Notification){
+    @objc func keyboardWillHide(_ notification: Notification){
         
         isKeyboardVisibleFlag = false
         
@@ -170,14 +170,14 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame, height: 0)
     }
     
-    func keyboardDidHide(_ notification: Notification){
+    @objc func keyboardDidHide(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidHide()
         }
     }
     
-    func keyboardWillChangeFrame(_ notification: Notification){
+    @objc func keyboardWillChangeFrame(_ notification: Notification){
         
         if !self.isKeyboardVisibleFlag {
             return
@@ -203,7 +203,7 @@ open class SBKeyboardEvents: NSObject {
         
     }
     
-    func keyboardDidChangeFrame(_ notification: Notification){
+    @objc func keyboardDidChangeFrame(_ notification: Notification){
         
         for listener in self.listeners{
             listener.keyboardDidChangeFrame(notification.endFrame())
