@@ -194,10 +194,6 @@ open class SBKeyboardEvents: NSObject {
         for listener in self.listeners{
             listener.keyboardWillChangeFrame(endFrame)
         }
-        
-        let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
-        
-        let height: CGFloat = UIScreen.main.bounds.size.height - endFrame.origin.y
 
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: endFrame)
         
