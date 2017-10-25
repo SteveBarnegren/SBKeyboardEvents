@@ -1,4 +1,3 @@
-
 // MARK: - KeyboardEventListener
 
 public protocol KeyboardEventListener : class {
@@ -27,17 +26,17 @@ public extension KeyboardEventListener {
 
 open class SBKeyboardEvents: NSObject {
     
-    // MARK - Public API
+    // MARK: - Public API
     
-    open class func addListener(_ listener: KeyboardEventListener){
+    open class func addListener(_ listener: KeyboardEventListener) {
         self.sharedInstance.addListener(listener)
     }
     
-    open class func removeListener(_ listener: KeyboardEventListener){
+    open class func removeListener(_ listener: KeyboardEventListener) {
         self.sharedInstance.removeListener(listener)
     }
     
-    open class func removeAllListeners(){
+    open class func removeAllListeners() {
         self.sharedInstance.removeAllListeners()
     }
     
@@ -45,7 +44,7 @@ open class SBKeyboardEvents: NSObject {
         return self.sharedInstance.isKeyboardVisibleFlag
     }
     
-    // MARK - Singleton (Private)
+    // MARK: - Singleton (Private)
     
     static let sharedInstance = SBKeyboardEvents()
     var wrappedListeners = [SBKeyboardListenerWeakWrapper]()
@@ -64,9 +63,8 @@ open class SBKeyboardEvents: NSObject {
         return unwrappedListeners
     }
     
+    // MARK: - Init
     
-    // MARK - Init
-
     override init() {
         
         super.init()
@@ -102,42 +100,40 @@ open class SBKeyboardEvents: NSObject {
                                        selector: #selector(SBKeyboardEvents.keyboardDidChangeFrame),
                                        name: NSNotification.Name.UIKeyboardDidChangeFrame,
                                        object: nil)
-
-        
     }
     
-    // MARK - Manage Listeners
+    // MARK: - Manage Listeners
     
-    func addListener(_ listener: KeyboardEventListener){
+    func addListener(_ listener: KeyboardEventListener) {
         
         let wrapper = SBKeyboardListenerWeakWrapper(listener: listener)
         self.wrappedListeners.append(wrapper)
     }
     
-    func removeListener(_ listener: KeyboardEventListener){
+    func removeListener(_ listener: KeyboardEventListener) {
 
-        self.wrappedListeners = self.wrappedListeners.filter{
+        self.wrappedListeners = self.wrappedListeners.filter {
             
             guard let aListener = $0.listener else { return false }
             return aListener !== listener
         }
     }
     
-    func removeAllListeners(){
+    func removeAllListeners() {
        self.wrappedListeners.removeAll()
     }
     
     func removeDeallocatedListeners() {
-        self.wrappedListeners = self.wrappedListeners.filter{ $0.listener != nil }
+        self.wrappedListeners = self.wrappedListeners.filter { $0.listener != nil }
     }
     
-    // MARK - Keyboard Notifications
+    // MARK: - Keyboard Notifications
     
-    @objc func keyboardWillShow(_ notification: Notification){
+    @objc func keyboardWillShow(_ notification: Notification) {
         
         isKeyboardVisibleFlag = true
         
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardWillAppear()
         }
         
@@ -148,18 +144,18 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame)
     }
     
-    @objc func keyboardDidShow(_ notification: Notification){
+    @objc func keyboardDidShow(_ notification: Notification) {
         
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardDidAppear()
         }
     }
     
-    @objc func keyboardWillHide(_ notification: Notification){
+    @objc func keyboardWillHide(_ notification: Notification) {
         
         isKeyboardVisibleFlag = false
         
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardWillHide()
         }
         
@@ -170,14 +166,14 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame, height: 0)
     }
     
-    @objc func keyboardDidHide(_ notification: Notification){
+    @objc func keyboardDidHide(_ notification: Notification) {
         
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardDidHide()
         }
     }
     
-    @objc func keyboardWillChangeFrame(_ notification: Notification){
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
         
         if !self.isKeyboardVisibleFlag {
             return
@@ -191,7 +187,7 @@ open class SBKeyboardEvents: NSObject {
         let animationCurve = notification.animationCurve()
         let duration = notification.duration()
 
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardWillChangeFrame(endFrame)
         }
 
@@ -199,20 +195,23 @@ open class SBKeyboardEvents: NSObject {
         
     }
     
-    @objc func keyboardDidChangeFrame(_ notification: Notification){
+    @objc func keyboardDidChangeFrame(_ notification: Notification) {
         
-        for listener in self.listeners{
+        for listener in self.listeners {
             listener.keyboardDidChangeFrame(notification.endFrame())
         }
     }
     
-    func doAnimationCallback(duration: Double, animationCurve: UInt, frame: CGRect, height : CGFloat? = nil) {
+    func doAnimationCallback(duration: Double,
+                             animationCurve: UInt,
+                             frame: CGRect,
+                             height: CGFloat? = nil) {
         
         let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
         
         UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
             
-            for listener in self.listeners{
+            for listener in self.listeners {
                 listener.animateForKeyboardFrame(frame)
                 listener.animateForKeyboardHeight( height ?? UIScreen.main.bounds.size.height - frame.origin.y )
             }
@@ -227,38 +226,37 @@ open class SBKeyboardEvents: NSObject {
 struct SBKeyboardListenerWeakWrapper {
     weak var listener: KeyboardEventListener?
     
-    init(listener: KeyboardEventListener){
-        self.listener = listener;
+    init(listener: KeyboardEventListener) {
+        self.listener = listener
     }
 }
 
-extension Notification{
+// swiftlint:disable force_cast
+extension Notification {
     
     func startFrame() -> CGRect {
-        let dictionary = userInfo! as Dictionary;
+        let dictionary = userInfo! as Dictionary
         let startFrame = (dictionary[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         return startFrame
     }
     
     func endFrame() -> CGRect {
-        let dictionary = userInfo! as Dictionary;
+        let dictionary = userInfo! as Dictionary
         let endFrame = (dictionary[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         return endFrame
     }
     
     func duration() -> Double {
-        let dictionary = userInfo! as Dictionary;
+        let dictionary = userInfo! as Dictionary
         let duration = (dictionary[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
         return duration!
     }
     
     func animationCurve() -> UInt {
-        let dictionary = userInfo! as Dictionary;
+        let dictionary = userInfo! as Dictionary
         let animationCurve = (dictionary[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
         return animationCurve!
     }
     
 }
-
-
-
+// swiftlint:enable force_cast

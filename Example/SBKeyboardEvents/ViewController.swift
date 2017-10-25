@@ -22,8 +22,8 @@ class ViewController: UIViewController {
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 20))
-        textField.leftView = paddingView;
-        textField.leftViewMode = .always;
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         
         // Add a tap gesture recognizer to dismiss the keyboard when tap away
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapAway))
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: KeyboardEventListener{
+extension ViewController: KeyboardEventListener {
 
     func animateForKeyboardHeight(_ height: CGFloat) {
         
