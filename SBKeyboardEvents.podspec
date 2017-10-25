@@ -29,7 +29,7 @@ Write less boilerplate code and easily respond to keyboard events
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'SBKeyboardEvents/SBKeyboardEvents/**/*'
+  s.source_files = 'SBKeyboardEvents/SBKeyboardEvents/**/*.swift'
 
   s.frameworks = 'UIKit'
 end
