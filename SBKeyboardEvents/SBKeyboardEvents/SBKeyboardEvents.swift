@@ -1,6 +1,6 @@
 // MARK: - KeyboardEventListener
 
-public protocol KeyboardEventListener : class {
+public protocol KeyboardEventListener: class {
     
     func keyboardWillAppear()
     func keyboardDidAppear()
