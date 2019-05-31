@@ -24,31 +24,31 @@ public extension KeyboardEventListener {
     func animateForKeyboardHeight(_ height: CGFloat) {}
 }
 
-open class SBKeyboardEvents: NSObject {
+public class SBKeyboardEvents: NSObject {
     
     // MARK: - Public API
     
-    open class func addListener(_ listener: KeyboardEventListener) {
+    public class func addListener(_ listener: KeyboardEventListener) {
         self.sharedInstance.addListener(listener)
     }
     
-    open class func removeListener(_ listener: KeyboardEventListener) {
+    public class func removeListener(_ listener: KeyboardEventListener) {
         self.sharedInstance.removeListener(listener)
     }
     
-    open class func removeAllListeners() {
+    public class func removeAllListeners() {
         self.sharedInstance.removeAllListeners()
     }
     
-    open class func isKeyboardVisible() -> Bool {
+    public class func isKeyboardVisible() -> Bool {
         return self.sharedInstance.isKeyboardVisibleFlag
     }
     
     // MARK: - Singleton (Private)
     
     static let sharedInstance = SBKeyboardEvents()
-    var wrappedListeners = [SBKeyboardListenerWeakWrapper]()
-    var isKeyboardVisibleFlag = false
+    private var wrappedListeners = [SBKeyboardListenerWeakWrapper]()
+    private var isKeyboardVisibleFlag = false
     
     var listeners: [KeyboardEventListener] {
         
@@ -123,13 +123,13 @@ open class SBKeyboardEvents: NSObject {
        self.wrappedListeners.removeAll()
     }
     
-    func removeDeallocatedListeners() {
+    private func removeDeallocatedListeners() {
         self.wrappedListeners = self.wrappedListeners.filter { $0.listener != nil }
     }
     
     // MARK: - Keyboard Notifications
     
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         
         isKeyboardVisibleFlag = true
         
@@ -144,14 +144,14 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame)
     }
     
-    @objc func keyboardDidShow(_ notification: Notification) {
+    @objc private func keyboardDidShow(_ notification: Notification) {
         
         for listener in self.listeners {
             listener.keyboardDidAppear()
         }
     }
     
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         
         isKeyboardVisibleFlag = false
         
@@ -166,14 +166,14 @@ open class SBKeyboardEvents: NSObject {
         doAnimationCallback(duration: duration, animationCurve: animationCurve, frame: frame, height: 0)
     }
     
-    @objc func keyboardDidHide(_ notification: Notification) {
+    @objc private func keyboardDidHide(_ notification: Notification) {
         
         for listener in self.listeners {
             listener.keyboardDidHide()
         }
     }
     
-    @objc func keyboardWillChangeFrame(_ notification: Notification) {
+    @objc private func keyboardWillChangeFrame(_ notification: Notification) {
         
         if !self.isKeyboardVisibleFlag {
             return
@@ -195,17 +195,17 @@ open class SBKeyboardEvents: NSObject {
         
     }
     
-    @objc func keyboardDidChangeFrame(_ notification: Notification) {
+    @objc private func keyboardDidChangeFrame(_ notification: Notification) {
         
         for listener in self.listeners {
             listener.keyboardDidChangeFrame(notification.endFrame())
         }
     }
     
-    func doAnimationCallback(duration: Double,
-                             animationCurve: UInt,
-                             frame: CGRect,
-                             height: CGFloat? = nil) {
+    private func doAnimationCallback(duration: Double,
+                                     animationCurve: UInt,
+                                     frame: CGRect,
+                                     height: CGFloat? = nil) {
         
         let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
         
