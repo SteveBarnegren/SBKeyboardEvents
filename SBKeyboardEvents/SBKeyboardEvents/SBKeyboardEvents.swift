@@ -73,32 +73,32 @@ public class SBKeyboardEvents: NSObject {
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillShow),
-                                       name: NSNotification.Name.UIKeyboardWillShow,
+                                       name: UIResponder.keyboardWillShowNotification,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidShow),
-                                       name: NSNotification.Name.UIKeyboardDidShow,
+                                       name: UIResponder.keyboardDidShowNotification,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillHide),
-                                       name: NSNotification.Name.UIKeyboardWillHide,
+                                       name: UIResponder.keyboardWillHideNotification,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidHide),
-                                       name: NSNotification.Name.UIKeyboardDidHide,
+                                       name: UIResponder.keyboardDidHideNotification,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardWillChangeFrame),
-                                       name: NSNotification.Name.UIKeyboardWillChangeFrame,
+                                       name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
         
         notificationCenter.addObserver(self,
                                        selector: #selector(SBKeyboardEvents.keyboardDidChangeFrame),
-                                       name: NSNotification.Name.UIKeyboardDidChangeFrame,
+                                       name: UIResponder.keyboardDidChangeFrameNotification,
                                        object: nil)
     }
     
@@ -207,7 +207,7 @@ public class SBKeyboardEvents: NSObject {
                                      frame: CGRect,
                                      height: CGFloat? = nil) {
         
-        let options = UIViewAnimationOptions(rawValue: UInt(animationCurve << 16))
+        let options = UIView.AnimationOptions(rawValue: UInt(animationCurve << 16))
         
         UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
             
@@ -236,25 +236,25 @@ extension Notification {
     
     func startFrame() -> CGRect {
         let dictionary = userInfo! as Dictionary
-        let startFrame = (dictionary[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let startFrame = (dictionary[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         return startFrame
     }
     
     func endFrame() -> CGRect {
         let dictionary = userInfo! as Dictionary
-        let endFrame = (dictionary[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let endFrame = (dictionary[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         return endFrame
     }
     
     func duration() -> Double {
         let dictionary = userInfo! as Dictionary
-        let duration = (dictionary[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+        let duration = (dictionary[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
         return duration!
     }
     
     func animationCurve() -> UInt {
         let dictionary = userInfo! as Dictionary
-        let animationCurve = (dictionary[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
+        let animationCurve = (dictionary[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
         return animationCurve!
     }
     
