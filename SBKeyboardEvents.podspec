@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SBKeyboardEvents'
-  s.version          = '0.3.0'
+  s.version          = '0.3'
   s.summary          = 'Easily respond to keyboard events'
 
 # This description is used to generate tags and improve search results.
